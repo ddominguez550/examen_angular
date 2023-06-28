@@ -1,0 +1,199 @@
+<div class="panel panel-default">  
+    <div class="panel-heading">  
+        <h1 style="text-align: center">Contactos</h1><br>  
+        <div class="row" [hidden]="!mensajeEliminar">  
+                  <div class="col-sm-4"></div>  
+                  <div class="col-sm-4">  
+                          <div class="alert alert-info alert-dismissible">  
+                                  <button type="button" class="close" data-hide="alert" (click)="limpiarMensaje()">×</button>  
+                                  <strong>{{mensajeResultado}}</strong>  
+                          </div>  
+                  </div>  
+                  <div class="col-sm-4"></div>  
+          </div>             
+    </div>  
+    
+      
+        <div class="panel-body">  
+            <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger"  >  
+                <thead class="thead-light">  
+                    <tr>  
+                        <th>Nombre</th>  
+                        <th>Apellido paterno</th>  
+                        <th>Apellido Materno</th>
+                        <th>Email</th>
+                        <th>Telefono</th>  
+                        <th>Accion</th>  
+                        
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr *ngFor="let contacto of contactos ">  
+                        <td>{{contacto.nombre}}</td>  
+                        <td>{{contacto.apellidoP}}</td>
+                        <td>{{contacto.apellidoM}}</td> 
+                        <td>{{contacto.email}}</td>   
+                        <td>{{contacto.telefono}}</td>  
+                        <td>
+                            <button (click)="setIdContactoElimimar(contacto.idContacto);" class="btn btn-primary" data-toggle="modal" data-target="#modalConfirmarEliminarContacto" data-id="contacto.idContacto">Eliminar</button>
+                            <button (click)="editar(contacto.idContacto)" class='btn btn-info'  data-toggle="modal" data-target="#modalEditarContacto">Editar</button>
+                        </td>  
+                    </tr>   
+                </tbody><br>  
+            </table>
+        </div>
+</div>  
+
+<div class="modal fade" id="modalEditarContacto">  
+    <div class="modal-dialog">  
+      <div class="modal-content">  
+      <form [formGroup]="contactoActualizarForm" #actualizarcontacto (ngSubmit)="actualizarContacto(actualizarcontacto)">
+        <div class="modal-header">  
+            <h4 class="modal-title" style="text-align: center">Actualizar contacto</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>   
+        </div> 
+        
+        <div class="modal-body">
+            <div [hidden]="esactualizado">
+                <fieldset class="border p-2">
+                    <legend>Información del Contacto</legend>
+                    <fieldset class="border p-2">
+                    <legend>Personal</legend>
+                    <input type="hidden" class="form-control"  formControlName="idContacto"> 
+                    <div class="form-group">  
+                        <label for="name">Nombre</label>  
+                        <input type="text" class="form-control"  formControlName="nombre" data-toggle="tooltip"   
+                            data-placement="right" title="Ingresa un nombre" >  
+                        <div class="alert alert-danger" *ngIf = "(Nombre.touched) && (Nombre.invalid)"   
+                            style="margin-top: 5px;">  
+                            <span *ngIf="Nombre.errors.required">El nombre es requerido</span>          
+                            </div>  
+                    </div>
+
+                    <div class="form-group">  
+                        <label for="name">Apellido paterno</label>  
+                        <input type="text" class="form-control"  formControlName="apellido_p" data-toggle="tooltip"   
+                           data-placement="right" title="Ingresa tu apellido paterno" >  
+                        <div class="alert alert-danger" *ngIf = "(Apellidop.touched) && (Apellidop.invalid)"   
+                          style="margin-top: 5px;">  
+                            <span *ngIf="Apellidop.errors.required">El apellido paterno es requerido</span>                 
+                          </div>  
+                    </div>
+
+                    <div class="form-group">  
+                        <label for="name">Apellido materno</label>  
+                        <input type="text" class="form-control"  formControlName="apellido_m" data-toggle="tooltip"   
+                           data-placement="right" title="Ingresa tu apellido materno" >  
+                        <div class="alert alert-danger" *ngIf = "(Apellidop.touched) && (Apellidop.invalid)"   
+                          style="margin-top: 5px;">  
+                            <span *ngIf="Apellidop.errors.required">El apellido materno es requerido</span>                 
+                          </div>  
+                    </div>
+
+                    <div class="form-group">  
+                        <label for="name">Email</label>  
+                        <input type="text" class="form-control" formControlName="email"   
+                          data-toggle="tooltip" data-placement="right" title="Ingrese el email">  
+                          <div class="alert alert-danger" *ngIf = "(Email.touched) && (Email.invalid)"   
+                          style="margin-top: 5px;">  
+                            <span *ngIf="Email.errors.required">El email es requerido</span>  
+                              <span *ngIf = "Email.errors.email">   
+                                  Formato incorrecto  
+                              </span>                     
+                          </div>  
+                    </div>
+
+                    <div class="form-group">  
+                        <label for="name">Telefono</label>  
+                        <input type="text" class="form-control"  formControlName="telefono" data-toggle="tooltip"   
+                           data-placement="right" title="Ingresa un numero de telefono" (keypress)="keyPress($event)" maxlength="10" >  
+                        <div class="alert alert-danger" *ngIf = "(Telefono.touched) && (Telefono.invalid)"   
+                          style="margin-top: 5px;">  
+                            <span *ngIf="Telefono.errors.required">El telefono es requerido</span>
+                            <br>
+                            <span *ngIf="Numero.errors.required">Debe escribir sólo numero</span>                 
+                          </div>  
+                    </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend>Direccion</legend>
+                        <input type="hidden" class="form-control"  formControlName="idDireccion">
+                        <div class="form-group">  
+                            <label for="name">Calle</label>  
+                            <input type="text" class="form-control"  formControlName="calle" data-toggle="tooltip"   
+                               data-placement="right" title="Ingresa una calle" >  
+                            <div class="alert alert-danger" *ngIf = "(Calle.touched) && (Calle.invalid)"   
+                              style="margin-top: 5px;">  
+                                <span *ngIf="Calle.errors.required">La calle es requerida</span>                 
+                              </div>  
+                          </div>
+            
+                          <div class="form-group">  
+                            <label for="name">Codigo postal</label>  
+                            <input type="text" class="form-control"  formControlName="codigo_postal" data-toggle="tooltip"   
+                               data-placement="right" title="Ingresa un codigo postal" >  
+                            <div class="alert alert-danger" *ngIf = "(CodigoPostal.touched) && (CodigoPostal.invalid)"   
+                              style="margin-top: 5px;">  
+                                <span *ngIf="CodigoPostal.errors.required">El codigo postal es requerido</span>                 
+                              </div>  
+                          </div>
+            
+                          <div class="form-group">  
+                            <label for="name">Colonia</label>  
+                            <input type="text" class="form-control"  formControlName="colonia" data-toggle="tooltip"   
+                               data-placement="right" title="Ingresa una colonia" >  
+                            <div class="alert alert-danger" *ngIf = "(Colonia.touched) && (Colonia.invalid)"   
+                              style="margin-top: 5px;">  
+                                <span *ngIf="Colonia.errors.required">La colonia es requerida</span>                 
+                              </div>  
+                          </div>
+            
+                          <div class="form-group">  
+                            <label for="name">Numero</label>  
+                            <input type="text" class="form-control"  formControlName="numero" data-toggle="tooltip"   
+                               data-placement="right" title="Ingresa una colonia" (keypress)="keyPress($event)" maxlength="3">  
+                            <div class="alert alert-danger" *ngIf = "(Numero.touched) && (Numero.invalid)"   
+                              style="margin-top: 5px;">  
+                                <span *ngIf="Numero.errors.required">El numero es requerido</span>
+                                <br>
+                                <span *ngIf="Numero.errors.required">Debe escribir sólo numero</span>               
+                              </div>  
+                          </div>
+                      </fieldset>
+                </fieldset>
+            </div>
+            <div [hidden]="!esactualizado">  
+                <h4>Contacto actualizado!</h4>  
+            </div>  
+        </div>
+        <div class="modal-footer" >  
+            <button type="submit" class="btn btn-success" [hidden]="esactualizado">Actualizar</button>  
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cambiarActualizar()">Close</button>  
+        </div>  
+    </form>  
+    </div>  
+  </div> 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfirmarEliminarContacto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Confirme para eliminar el registro
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button (click)="eliminar()" class='btn btn-primary' data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>

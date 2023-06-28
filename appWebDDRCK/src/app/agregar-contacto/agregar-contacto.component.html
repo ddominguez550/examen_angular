@@ -1,0 +1,128 @@
+<h3>Crear Contacto</h3>  
+<div class="row">  
+  <div class="col-sm-4"></div>  
+  <div class="col-sm-4" >  
+    <div [hidden]="submitted" style="width: 400px;">  
+      <form [formGroup]="contactoGuardarForm" #guardarcontacto (ngSubmit)="guardarContacto(guardarcontacto)"> 
+        <fieldset class="border p-2">
+        <legend>Información del Contacto</legend>
+        <fieldset class="border p-2">
+        <legend>Personal</legend> 
+          <div class="form-group">  
+              <label for="name">Nombre</label>  
+              <input type="text" class="form-control"  formControlName="nombre" data-toggle="tooltip"   
+                 data-placement="right" title="Ingresa un nombre" >  
+              <div class="alert alert-danger" *ngIf = "(Nombre.touched) && (Nombre.invalid)"   
+                style="margin-top: 5px;">  
+                  <span *ngIf="Nombre.errors.required">El nombre es requerido</span>          
+                </div>  
+          </div>
+
+          <div class="form-group">  
+            <label for="name">Apellido paterno</label>  
+            <input type="text" class="form-control"  formControlName="apellido_p" data-toggle="tooltip"   
+               data-placement="right" title="Ingresa tu apellido paterno" >  
+            <div class="alert alert-danger" *ngIf = "(Apellidop.touched) && (Apellidop.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="Apellidop.errors.required">El apellido paterno es requerido</span>                 
+              </div>  
+          </div>
+    
+          <div class="form-group">  
+            <label for="name">Apellido materno</label>  
+            <input type="text" class="form-control"  formControlName="apellido_m" data-toggle="tooltip"   
+               data-placement="right" title="Ingresa tu apellido materno" >  
+            <div class="alert alert-danger" *ngIf = "(Apellidop.touched) && (Apellidop.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="Apellidop.errors.required">El apellido materno es requerido</span>                 
+              </div>  
+          </div>
+
+          <div class="form-group">  
+            <label for="name">Email</label>  
+            <input type="text" class="form-control" formControlName="email"   
+              data-toggle="tooltip" data-placement="right" title="Ingrese el email">  
+              <div class="alert alert-danger" *ngIf = "(Email.touched) && (Email.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="Email.errors.required">El email es requerido</span>  
+                  <span *ngIf = "Email.errors.email">   
+                      Formato incorrecto  
+                  </span>                     
+              </div>  
+          </div>
+    
+          <div class="form-group">  
+            <label for="name">Telefono</label>  
+            <input type="text" class="form-control"  formControlName="telefono" data-toggle="tooltip"   
+               data-placement="right" title="Ingresa un numero de telefono" (keypress)="keyPress($event)" maxlength="10" >  
+            <div class="alert alert-danger" *ngIf = "(Telefono.touched) && (Telefono.invalid)"   
+              style="margin-top: 5px;">  
+                <span *ngIf="Telefono.errors.required">El telefono es requerido</span>
+                <br>
+                <span *ngIf="Numero.errors.required">Debe escribir sólo numero</span>                 
+              </div>  
+          </div>
+          </fieldset>
+          <fieldset class="border p-2">
+            <legend>Direccion</legend>
+            <div class="form-group">  
+                <label for="name">Calle</label>  
+                <input type="text" class="form-control"  formControlName="calle" data-toggle="tooltip"   
+                   data-placement="right" title="Ingresa una calle" >  
+                <div class="alert alert-danger" *ngIf = "(Calle.touched) && (Calle.invalid)"   
+                  style="margin-top: 5px;">  
+                    <span *ngIf="Calle.errors.required">La calle es requerida</span>                 
+                  </div>  
+              </div>
+
+              <div class="form-group">  
+                <label for="name">Codigo postal</label>  
+                <input type="text" class="form-control"  formControlName="codigo_postal" data-toggle="tooltip"   
+                   data-placement="right" title="Ingresa un codigo postal" >  
+                <div class="alert alert-danger" *ngIf = "(CodigoPostal.touched) && (CodigoPostal.invalid)"   
+                  style="margin-top: 5px;">  
+                    <span *ngIf="CodigoPostal.errors.required">El codigo postal es requerido</span>                 
+                  </div>  
+              </div>
+
+              <div class="form-group">  
+                <label for="name">Colonia</label>  
+                <input type="text" class="form-control"  formControlName="colonia" data-toggle="tooltip"   
+                   data-placement="right" title="Ingresa una colonia" >  
+                <div class="alert alert-danger" *ngIf = "(Colonia.touched) && (Colonia.invalid)"   
+                  style="margin-top: 5px;">  
+                    <span *ngIf="Colonia.errors.required">La colonia es requerida</span>                 
+                  </div>  
+              </div>
+
+              <div class="form-group">  
+                <label for="name">Numero</label>  
+                <input type="text" class="form-control"  formControlName="numero" data-toggle="tooltip"   
+                   data-placement="right" title="Ingresa una colonia" (keypress)="keyPress($event)" maxlength="3">  
+                <div class="alert alert-danger" *ngIf = "(Numero.touched) && (Numero.invalid)"   
+                  style="margin-top: 5px;">  
+                    <span *ngIf="Numero.errors.required">El numero es requerido</span>
+                    <br>
+                    <span *ngIf="Numero.errors.required">Debe escribir sólo numero</span>               
+                  </div>  
+              </div>
+          </fieldset>
+    |   </fieldset>
+          
+          <p>Completa el formulario para habilitar el boton</p>
+          <button type="submit" class="btn btn-success" [disabled]="!contactoGuardarForm.valid">Submit</button>  
+      </form>  
+  </div>  
+  </div>  
+  <div class="col-sm-4"></div>  
+</div>  
+<div class="row">  
+  <div class="col-sm-4"></div>  
+  <div class="col-sm-4">  
+      <div [hidden]="!submitted">  
+         <h4>Contacto agregado correctamente!</h4>  
+         <button (click)="agregarContactoForm()" class='btn btn-primary'>Agregar mas contactos</button>  
+      </div>        
+  </div>  
+  <div class="col-sm-4"></div>  
+</div>
